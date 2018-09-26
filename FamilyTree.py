@@ -16,12 +16,15 @@ class FamilyTree:
         self.tree[person.get_name()] = person
 
     def get_person(self, name):
-        return self.tree[name]
+        if name not in self.tree:
+            return None
+        else:
+            return self.tree[name]
 
     def get_cousins(self, person):
         cousins = list()
         for entry in self.tree:
-            if person.is_cousin(entry):
+            if person.is_cousin(self.tree[entry]):
                 cousins.append(entry)
         cousins.sort()
         return cousins
@@ -29,7 +32,7 @@ class FamilyTree:
     def get_unrelated(self, person):
         unrelated = list()
         for entry in self.tree:
-            if person.is_unrelated(entry):
+            if person.is_unrelated(self.tree[entry]):
                 unrelated.append(entry)
         unrelated.sort()
         return unrelated

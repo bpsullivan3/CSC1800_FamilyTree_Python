@@ -40,7 +40,7 @@ class Person:
         self.name = name
 
     def add_spouse(self, spouse):
-        self.spouses.append(spouse)
+        self.spouses.append(spouse.get_name())
         self.spouses.sort()
 
     def set_parent1(self, parent):
@@ -50,7 +50,7 @@ class Person:
         self.parent2 = parent
 
     def add_child(self, child):
-        self.children.append(child)
+        self.children.append(child.get_name())
         self.children.sort()
 
     def get_ancestors(self):
@@ -66,8 +66,10 @@ class Person:
         else:
             ancestors.append(self.parent1.get_name())
             ancestors.append(self.parent2.get_name())
-            ancestors.append(self.parent1.get_ancestors())
-            ancestors.append(self.parent2.get_ancestors())
+            for person in self.parent1.get_ancestors():
+                ancestors.append(person)
+            for person in self.parent2.get_ancestors():
+                ancestors.append(person)
         ancestors.sort()
         return ancestors
 
@@ -80,7 +82,8 @@ class Person:
         """
         siblings = list()
         if self.parent1 is not None:
-            siblings.append(self.parent1.get_children())
+            for child in self.parent1.get_children():
+                siblings.append(child)
         if self.parent2 is not None:
             for child in self.parent2.get_children():
                 if child not in siblings:
@@ -120,6 +123,8 @@ class Person:
         """
         if self.equals(person2):
             return False
+        elif person2.get_parent1() is None or person2.get_parent2() is None:
+            return False
         elif self.parent1 is not None \
                 and (self.parent1.equals(person2.get_parent1())
                      or self.parent1.equals(person2.get_parent2())):
@@ -150,7 +155,7 @@ class Person:
         """
         if self.equals(person2):
             return False
-        elif self.is_child(person2) or person2.isChild(self):
+        elif self.is_child(person2) or person2.is_child(self):
             return False
         else:
             ancestors1 = self.get_ancestors()
