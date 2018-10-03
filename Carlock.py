@@ -35,35 +35,39 @@ def main():
 
         if parts[0] == 'E':
             if len(parts) == 3:  # New Marriage
-                person1 = tree[parts[1]]
-                person2 = tree[parts[2]]
 
-                # Initialize person if they don't exist
-                if person1 is None:
+                # Initialize person
+                if parts[1] not in tree:
                     person1 = Person.Person(parts[1], None, None)
                     tree[parts[1]] = person1
-                if person2 is None:
+                else:
+                    person1 = tree[parts[1]]
+                if parts[2] not in tree:
                     person2 = Person.Person(parts[2], None, None)
                     tree[parts[2]] = person2
+                else:
+                    person2 = tree[parts[2]]
 
                 # Set the proper spouse for the entries
                 person1.add_spouse(person2)
                 person2.add_spouse(person1)
 
             elif len(parts) == 4:  # New Child
-                person1 = tree[parts[1]]
-                person2 = tree[parts[2]]
 
-                # Initialize the parents if they don't exist
-                if person1 is None:
+                # Initialize Parents
+                if parts[1] not in tree:
                     person1 = Person.Person(parts[1], None, None)
                     tree[parts[1]] = person1
-                if person2 is None:
+                else:
+                    person1 = tree[parts[1]]
+                if parts[2] not in tree:
                     person2 = Person.Person(parts[2], None, None)
                     tree[parts[2]] = person2
+                else:
+                    person2 = tree[parts[2]]
 
                 # Create the child if they don't exist
-                if tree[parts[3]] is not None:
+                if parts[3] in tree:
                     print(parts[3], ' already exists! Child not created.')
                 else:
                     person3 = Person.Person(parts[3], person1, person2)
