@@ -96,7 +96,7 @@ def is_sibling(person1, person2):
 
 
 def is_ancestor(person1, person2):
-    return person2['name'] in get_ancestors(person1)
+    return person1['name'] in get_ancestors(person2)
 
 
 def is_cousin(person1, person2):
