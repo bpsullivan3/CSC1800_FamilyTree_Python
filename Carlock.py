@@ -39,7 +39,8 @@ def add_spouse(person, spouse):
     :param spouse: Dict
     :return: None
     """
-    person['spouses'].append(spouse['name'])
+    if spouse['name'] not in person['spouses']:
+        person['spouses'].append(spouse['name'])
     person['spouses'].sort()
 
 
