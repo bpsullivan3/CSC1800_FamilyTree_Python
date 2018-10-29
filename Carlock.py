@@ -13,6 +13,15 @@ import sys
 
 
 def create_person(name, parent1, parent2):
+    """
+    Create a dictionary for a 'Person'. If the person has no parents, the
+    parent arguments should be None.
+
+    :param name: String
+    :param parent1: Dict
+    :param parent2: Dict
+    :return: Dict
+    """
     person = dict()
     person['name'] = name  # String
     person['spouses'] = list()
@@ -23,24 +32,53 @@ def create_person(name, parent1, parent2):
 
 
 def add_spouse(person, spouse):
+    """
+    Access the list of spouses for the given person, and append the new spouse.
+
+    :param person: Dict
+    :param spouse: Dict
+    :return: None
+    """
     person['spouses'].append(spouse['name'])
     person['spouses'].sort()
 
 
 def add_child(person, child):
+    """
+    Access the list of children for the given person, and append the new child.
+
+    :param person: Dict
+    :param child: Dict
+    :return: None
+    """
     person['children'].append(child['name'])
     person['children'].sort()
 
 
 def get_children(person):
+    """
+    :param person: Dict
+    :return: list of strings
+    """
     return person['children']
 
 
 def get_spouses(person):
+    """
+    :param person: Dict
+    :return: list of strings
+    """
     return person['spouses']
 
 
 def get_siblings(person):
+    """
+    Gather the list of children for each parent, and add them to a list of
+    siblings for the current person. Removes the person themselves from the list.
+
+    :param person: Dict
+    :return: list of strings
+    """
     siblings = list()
     if person['parent1'] is not None:
         for child in get_children(person['parent1']):
@@ -55,6 +93,13 @@ def get_siblings(person):
 
 
 def get_ancestors(person):
+    """
+    Recurse through the parents of the person, and gather the list
+    of direct ancestors.
+
+    :param person: Dict
+    :return: list of strings
+    """
     ancestors = list()
     if person['parent1'] is None or person['parent2'] is None:
         return ancestors
@@ -70,6 +115,12 @@ def get_ancestors(person):
 
 
 def is_child(person1, person2):
+    """
+    Check person1 is a direct child of person2
+    :param person1: Dict
+    :param person2: Dict
+    :return: Boolean
+    """
     if person1['parent1'] is None or person1['parent2'] is None:
         return False
     else:
@@ -77,10 +128,24 @@ def is_child(person1, person2):
 
 
 def is_spouse(person1, person2):
+    """
+    Check if person1 and person2 were spouses at some point in time.
+
+    :param person1: Dict
+    :param person2: Dict
+    :return: Boolean
+    """
     return person2['name'] in person1['spouses']
 
 
 def is_sibling(person1, person2):
+    """
+    Check if person1 and person2 are siblings. One cannot be their own sibling.
+
+    :param person1: Dict
+    :param person2: Dict
+    :return: Boolean
+    """
     if person1 == person2:
         return False
     elif person1['parent1'] is not None and \
@@ -96,10 +161,24 @@ def is_sibling(person1, person2):
 
 
 def is_ancestor(person1, person2):
+    """
+    Check if person1 is an ancestor of person2
+
+    :param person1: Dict
+    :param person2: Dict
+    :return: Boolean
+    """
     return person1['name'] in get_ancestors(person2)
 
 
 def is_cousin(person1, person2):
+    """
+    Check if person1 and person2 share a direct ancestor that is not each other.
+
+    :param person1: Dict
+    :param person2: Dict
+    :return: Boolean
+    """
     if person1 == person2:
         return False
     elif is_child(person1, person2) or is_child(person2, person1):
@@ -119,6 +198,14 @@ def is_cousin(person1, person2):
 
 
 def is_unrelated(person1, person2):
+    """
+    Check if person1 and person2 are unrelated. For the purposes of this project,
+    a person is unrelated to themselves.
+
+    :param person1: Dict
+    :param person2: Dict
+    :return: Boolean
+    """
     if person1 == person2:
         return True
     elif is_child(person1, person2) or is_child(person2, person1):
@@ -134,6 +221,13 @@ def is_unrelated(person1, person2):
 
 
 def get_cousins(tree, person):
+    """
+    Get all cousins of person by checking each member of the tree.
+
+    :param tree: Dict
+    :param person: Dict
+    :return: List of strings
+    """
     result = list()
     for cousin in tree:
         if is_cousin(person, tree[cousin]):
@@ -143,6 +237,13 @@ def get_cousins(tree, person):
 
 
 def get_unrelated(tree, person):
+    """
+    Get all people in the tree unrelated to person.
+
+    :param tree: Dict
+    :param person: Dict
+    :return: List of strings
+    """
     result = list()
     for unrelated in tree:
         if is_unrelated(person, tree[unrelated]):
@@ -285,9 +386,15 @@ def main():
             print()
         else:
             print('Please enter a valid query.')
+            print()
 
         query = sys.stdin.readline()
 
 
 if __name__ == '__main__':
+    """
+    This part is not exactly necessary, but it helps the computer to process all of the program
+    before running any actual commands. Syntax errors and other compiler issues will be found
+    quicker this way. __name__ == '__main__' is simply best practice for running python programs.
+    """
     main()
