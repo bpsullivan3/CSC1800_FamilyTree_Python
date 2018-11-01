@@ -258,7 +258,10 @@ def main():
     query = sys.stdin.readline()
 
     while query:
-        parts = query[:-1].split(' ')
+        if query[-1] == '\n':
+            parts = query[:-1].split(' ')
+        else:
+            parts = query.split(' ')
 
         if parts[0] == 'E':
             if len(parts) == 3:  # New Marriage
