@@ -296,6 +296,10 @@ def main():
                 else:
                     person2 = tree[parts[2]]
 
+                # Marry the parents if not already done
+                add_spouse(person1, person2)
+                add_spouse(person2, person1)
+
                 # Create the child if they don't exist
                 if parts[3] in tree:
                     print(parts[3], ' already exists! Child not created.')
