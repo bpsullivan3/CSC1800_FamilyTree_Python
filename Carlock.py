@@ -262,6 +262,21 @@ def main():
             parts = query[:-1].split(' ')
         else:
             parts = query.split(' ')
+# Ensure names are valid
+#--------------------------
+        invalid = 0
+        for i in parts:
+            if len(i)>40:
+                print('The name '+ i +' is not a valid entry. Names with more than 40 characters are not allowed.')
+                invalid=1
+
+        for i in parts:
+            if i.find('-') != -1:
+               print('The name '+ i +' is not a valid entry. Hyphens are not valid in names.')
+               invalid=1
+        if invalid==1:
+            break
+#----------------------------
 
         if parts[0] == 'E':
             if len(parts) == 3:  # New Marriage
